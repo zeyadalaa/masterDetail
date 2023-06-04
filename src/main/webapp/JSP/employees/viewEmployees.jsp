@@ -1,3 +1,4 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="org.bibalex.Servlet.EmployeeServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%> 
 <%@ page import="org.bibalex.Models.Employee" %>
@@ -32,12 +33,12 @@ System.out.println("this is new "+employees.get(0).getLastName());
 	<div class="container">
 	    <table>
 	        <tr>
-	            <th>ID</th>
 	            <th>First Name</th>
 	            <th>Last Name</th>
 	            <th>DOB</th>
 	            <th>Email</th>
 	            <th>Department Name</th>
+	            <th>Section Name</th>
 	            <th>Actions</th>
 	        </tr>
 	        <%-- JSP code to retrieve and display data from the database --%>
@@ -48,38 +49,36 @@ System.out.println("this is new "+employees.get(0).getLastName());
 	            //for (Employee employee : employees) {
 	        %>
 	        
-	        <c:forEach  items="${employees}" var="employee">
-	        			<tr class="rows">
-							<td><c:out value="${employee.getFirstName()}" /></td>
-							<td><c:out value="${employee.getLastName()}" /></td>
-							<td><c:out value="${employee.email}" /></td>
-							<td><c:out value="${employee.dob}" /></td>
-							<td><c:out value="${employee.dob}" /></td>
-							<td><a href="edit?id=<c:out value='${employee.id}' />">Edit</a>
+        		   <tr class="rows">
+	        			<%
+						for(int i = 0 ;i<employees.size();i++){
+		        			%>
+	        		   <tr class="rows">
+        			   <td><%out.println(employees.get(i).getFirstName()); %></td>
+        			   <td><%out.println(employees.get(i).getLastName()); %></td>
+        			   <td><%out.println(employees.get(i).getEmail()); %></td>
+        			   <td><%out.println(employees.get(i).getDOB()); %></td>
+        			   <td><%out.println(employees.get(i).getDepartment().getName()); %></td>
+        			   <td><%out.println(employees.get(i).getDepartment().getSection().getName()); %></td>
+					   <td><a href="edit?id=<c:out value='${employee.id}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
 								href="delete?id=<c:out value='${employeex.id}' />">Delete</a></td>
-						</tr>
-			</c:forEach>
+						<%
+						}
+		        			%>
+       		    </table>
 	        			<tr class="rows">
 	            <%-- <td><%= employee.getId() %></td>
 	            <td><%= employee.getFirst_name() %></td>
 	            <td><%= employee.getLast_name() %></td>
 	            <td><%= employee.getDOB() %></td>
 	            <td><%= employee.getEmail() %></td>
-	            <td><%= employee.getDepartment_id() %></td> --%>
-	            <td>zeyad</td>
-	            <td>zeyad</td>
-	            <td>zeyad</td>
-	            <td>zeyad</td>
-	            <td>zeyad</td>
-	            <td>zeyad</td>
+	            <td><%= employee.getDepartment_id() %></td> --%><!-- 
 	            <td>
 	                <button>Delete</button>
 	                <button>Update</button>
-	            </td>
+	            </td> -->
 	        </tr>
-	       <%--  <% } %> --%>
-	    </table>
 	    <form action="${pageContext.request.contextPath}/Employee" method="POST">
 		  <input type="hidden" name="action" value="add">
 		  <button type="submit" class="addButton">Add New Employee</button>
