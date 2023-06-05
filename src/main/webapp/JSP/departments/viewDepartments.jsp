@@ -11,6 +11,13 @@
 <title>Master Detail</title>
 </head>
 <body>
+
+		<% if (request.getAttribute("errorMessage") != null) { %>
+        <script>
+        	alert("<%= request.getAttribute("errorMessage") %>")
+            
+        </script>
+    	<% } %>
     <div class="container">
         <nav>
             <ul>

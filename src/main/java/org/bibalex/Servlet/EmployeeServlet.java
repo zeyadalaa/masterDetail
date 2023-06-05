@@ -3,6 +3,7 @@ package org.bibalex.Servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -126,8 +127,17 @@ public class EmployeeServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String departmentIdStr = request.getParameter("departmentId");
 		int departmentId = Integer.parseInt(departmentIdStr);
-
-		employeeDAO.addEmployee(firstName, lastName, dob, email,departmentId);
+		try {
+			employeeDAO.addEmployee(firstName, lastName, dob, email,departmentId);			
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    String errorMessage = "Email already existed!";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp").forward(request, response);
+		}
 
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp");
 	    
@@ -171,8 +181,18 @@ public class EmployeeServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String departmentIdStr = request.getParameter("departmentId");
 		int departmentId = Integer.parseInt(departmentIdStr);
-	
-		employeeDAO.updateEmployee(firstName, lastName, dob, email,departmentId, employeeid);
+		try {
+			employeeDAO.updateEmployee(firstName, lastName, dob, email,departmentId, employeeid);
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    String errorMessage = "Email already existed!";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp").forward(request, response);
+		}
+
 
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp");
 	    

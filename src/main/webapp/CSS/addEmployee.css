@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+    padding: 0;
+}
 .container {
   position: absolute;
   top: 50%;
@@ -7,6 +11,45 @@
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
+}
+.container-nav{
+    font-size: 20px;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    margin: auto;
+    width: 70%;
+}
+
+nav {
+    background-color: #f2f2f2;
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+}
+
+nav {
+    background-color: #f2f2f2;
+    display: inline-block;
+    padding: 10px;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px;
 }
 .add-employee-form  {
 	width: 91%;

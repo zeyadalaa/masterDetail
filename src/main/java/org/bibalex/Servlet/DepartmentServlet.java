@@ -2,6 +2,7 @@ package org.bibalex.Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -111,8 +112,17 @@ public class DepartmentServlet extends HttpServlet {
 		String departmentName = request.getParameter("departmentName");
 		String departmentIdStr = request.getParameter("sectionId");
 		int departmentId = Integer.parseInt(departmentIdStr);
-
+		try {
 		departmentDAO.addDepartment(departmentName, departmentId);
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    String errorMessage = "Department name already existed !";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp").forward(request, response);
+		}
 
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp");
 	    
@@ -146,9 +156,17 @@ public class DepartmentServlet extends HttpServlet {
 		String departmentName = request.getParameter("departmentName");
 		String sectionID = request.getParameter("sectionId");
 		int sectionId = Integer.parseInt(sectionID);
-	
-		departmentDAO.updateDepartment(departmentId,sectionId,departmentName);
-
+		try {
+			departmentDAO.updateDepartment(departmentId,sectionId,departmentName);
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    String errorMessage = "Department name already existed !";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp").forward(request, response);
+		}
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/departments/viewDepartments.jsp");
 	    
 	    dispatcher.forward(request, response);

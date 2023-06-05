@@ -6,10 +6,30 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/addEmployee.css">
     <meta charset="UTF-8">
     <title>Add Section</title>
+    <script>
+        function showError(message) {
+            alert(message); // Replace with your preferred pop-up mechanism
+        }
+    </script>
 </head>
 <body>
+    <div class="container-nav">
+        <nav>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/JSP/employees/viewEmployees.jsp">Employee</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/departments/viewDepartments.jsp">Department</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/sections/viewSections.jsp">Section</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="AddSection">
 	    <div class="container">
+	    <% if (request.getAttribute("errorMessage") != null) { %>
+        <script>
+            showError("<%= request.getAttribute("errorMessage") %>");
+        </script>
+    	<% } %>
+	    
 	    <%Section section = (Section) request.getAttribute("section"); %>
 	        <%
 					if(section != null) {

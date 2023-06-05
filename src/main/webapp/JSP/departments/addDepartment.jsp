@@ -11,8 +11,19 @@
     <title>Add Department</title>
 </head>
 <body>
+    <div class="container-nav">
+        <nav>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/JSP/employees/viewEmployees.jsp">Employee</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/departments/viewDepartments.jsp">Department</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/sections/viewSections.jsp">Section</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="AddDepartment">
 	    <div class="container">
+	    
+	    
 	    <%Department department = (Department) request.getAttribute("department"); %>
 	        <%
 					if(department != null) {

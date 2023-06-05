@@ -3,6 +3,7 @@ package org.bibalex.Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -104,10 +105,20 @@ public class SectionServlet extends HttpServlet {
 			throws SQLException, IOException, ServletException {
 		String sectionName = request.getParameter("SectionName");
 
-		sectionDAO.addSection(sectionName);
-
-	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/sections/viewSections.jsp");
-	    
+		try {
+			sectionDAO.addSection(sectionName);
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    // Handle unique constraint violation
+		    String errorMessage = "Section name already existed !";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/sections/viewSections.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    // Handle other SQL exceptions
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/sections/viewSections.jsp").forward(request, response);
+		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/sections/viewSections.jsp");
 	    dispatcher.forward(request, response);
 	}
 	
@@ -138,8 +149,19 @@ public class SectionServlet extends HttpServlet {
 		String sectionID = request.getParameter("sectionid");
 		int sectionId = Integer.parseInt(sectionID);
 		String sectionName = request.getParameter("SectionName");
-		
-		sectionDAO.updateSection(sectionId,sectionName);
+		try {
+			sectionDAO.updateSection(sectionId,sectionName);
+		}catch (SQLIntegrityConstraintViolationException e) {
+		    // Handle unique constraint violation
+		    String errorMessage = "Section name already existed !";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/sections/viewSections.jsp").forward(request, response);
+		} catch (SQLException e) {
+		    // Handle other SQL exceptions
+		    String errorMessage = "An error occurred while performing the operation. Please try again later.";
+		    request.setAttribute("errorMessage", errorMessage);
+		    request.getRequestDispatcher("/JSP/sections/viewSections.jsp").forward(request, response);
+		}
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/sections/viewSections.jsp");
 	    
 	    dispatcher.forward(request, response);
