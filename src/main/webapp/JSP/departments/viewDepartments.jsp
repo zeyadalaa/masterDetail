@@ -14,9 +14,9 @@
     <div class="container">
         <nav>
             <ul>
-                <li><a href="#">Employee</a></li>
-                <li><a href="#">Department</a></li>
-                <li><a href="#">Section</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/employees/viewEmployees.jsp">Employee</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/departments/viewDepartments.jsp">Department</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/sections/viewSections.jsp">Section</a></li>
             </ul>
         </nav>
     </div>
@@ -49,32 +49,25 @@
 	       			   <td><%out.println(departments.get(i).getSection().getName()); %></td>
 					   <td>
 		       			   <div class="action-buttons">
-			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
-								  <input type="hidden" name="action" value="update">
+			       			   <form action="${pageContext.request.contextPath}/Department" method="POST">
+								  <input type="hidden" name="action" value="edit" >
+								  <input type="hidden" name="departmentid" value="<%=departments.get(i).getId() %>">
 					                <button type="submit" class="updateButton">Update</button>
 							   </form>
 							   
-			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+			       			   <form action="${pageContext.request.contextPath}/Department" method="POST">
 								  <input type="hidden" name="action" value="delete">
+								  <input type="hidden" name="departmentid" value="<%=departments.get(i).getId() %>">
 				                	<button type="submit" class="deleteButton">Delete</button>
 							   </form>
 						   </div>
 			            </td>
 					<%}%>
 		        </tr>
-		        <!-- <tr class="rows">
-		            <td>zeyad</td>
-		            <td>zeyad</td>
-		            <td>zeyad</td>
-		            <td>
-		                <button>Delete</button>
-		                <button>Update</button>
-		            </td>
-		        </tr> -->
 	    </table>
 	    <form action="${pageContext.request.contextPath}/Department" method="POST">
 		  <input type="hidden" name="action" value="add">
-		  <button type="submit" class="addButton">Add New department</button>
+		  <button type="submit" class="addButton">Add department</button>
 		</form>
 	    <!-- <button  class="addButton">Add</button> -->
     </div>

@@ -148,7 +148,6 @@ public class EmployeeServlet extends HttpServlet {
 			throws SQLException, ServletException, IOException {
 		int employeeID = Integer.parseInt(request.getParameter("employeeid"));
 		Employee employee = employeeDAO.getEmployee(employeeID);
-		System.out.println("iam heree");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/addEmployee.jsp");
 		request.setAttribute("employee", employee);
 		dispatcher.forward(request, response);
