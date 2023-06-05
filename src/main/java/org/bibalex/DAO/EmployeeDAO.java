@@ -54,6 +54,42 @@ public class EmployeeDAO {
         return employee;
     }
     
+    public Employee getEmployee(int employeeID) throws SQLException {
+    	Employee employee = null;
+    	Department department;
+    	Section section;
+        ConnectDB connection = new ConnectDB();
+        String STP= "CALL getEmployee(?)";
+        Connection connection1 =connection.ConnectToDatabase();
+        CallableStatement statement = null;
+
+        statement =  connection1.prepareCall(STP);
+        statement.setInt(1, employeeID);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            int employeeId = resultSet.getInt("id");
+            String employeeFirst_Name = resultSet.getString("first_name");
+            String employeesLast_name = resultSet.getString("last_name");
+            Date employeesDOB = resultSet.getDate("date_of_birth");
+            String employeesEmail = resultSet.getString("email");
+            int departmentID = resultSet.getInt("department_id");
+            int sectionID = resultSet.getInt("section_id");
+            String sectionName = resultSet.getString("section_name");
+            String departmentName = resultSet.getString("department_name");
+//
+//            System.out.print( " connection aaa : "+  departmentName + " "+  sectionID + " " + employeeFirst_Name );
+            section = new Section(sectionID,sectionName);
+            department = new Department(departmentID,departmentName,0,section);
+            employee = new Employee(employeeId, employeeFirst_Name, employeesLast_name,
+                    employeesDOB, employeesEmail,departmentID, department);
+        }
+
+        statement.close();
+        connection1.close();
+        return employee;
+    }
+    
     public void addEmployee(String firstName,String lastName,Date date,String email,Integer departmentId) throws SQLException {
         ConnectDB connection = new ConnectDB();
         String STP= "CALL addEmployee(?,?,?,?,?)";

@@ -60,7 +60,6 @@ public class EmployeeServlet extends HttpServlet {
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action") ;
-		
 		if(action.isEmpty()) action = "home";
 		
 		System.out.println(action.isEmpty()+" "+ action + " ssssssssssssssss");
@@ -73,14 +72,16 @@ public class EmployeeServlet extends HttpServlet {
 				insertEmployee(request, response);
 				break;
 			case "delete":
+				deleteEmployee(request, response);
 				break;
 			case "edit":
+				editForm(request, response);
 				break;
 			case "update":
+				updateEmployee(request, response);
 				break;
 			default:
 				System.out.print( "/n view");
-				viewEmployee(request, response);
 				break;
 			}
 		} catch (Exception ex) {
@@ -102,25 +103,15 @@ public class EmployeeServlet extends HttpServlet {
 			departments = departmentDAO.getDepartment();
 		    request.setAttribute("departments", departments); 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/addEmployee.jsp");
 	    
 	    dispatcher.forward(request, response);
 	}
-	
-	private void viewEmployee(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
-		List<Employee> employees = employeeDAO.getEmployees();
-		System.out.print( "/n view");
-		request.setAttribute("employees", employees);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("viewEmployees.jsp");
-		dispatcher.forward(request, response);
-	}
 
 	private void insertEmployee(HttpServletRequest request, HttpServletResponse response) 
-			throws SQLException, IOException {
+			throws SQLException, IOException, ServletException {
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String dobString = request.getParameter("dob");
@@ -133,10 +124,60 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		java.sql.Date dob = new java.sql.Date(utilDate.getTime());
 		String email = request.getParameter("email");
-		int departmentId =Integer.parseInt( request.getParameter("departmentId") );
-		
+		String departmentIdStr = request.getParameter("departmentId");
+		int departmentId = Integer.parseInt(departmentIdStr);
+
 		employeeDAO.addEmployee(firstName, lastName, dob, email,departmentId);
-		response.sendRedirect("home");
+
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp");
+	    
+	    dispatcher.forward(request, response);
+	}
+	
+	private void deleteEmployee(HttpServletRequest request, HttpServletResponse response) 
+			throws SQLException, IOException, ServletException {
+		int employeeid = Integer.parseInt( request.getParameter("employeeid") );
+		employeeDAO.deleteEmployee(employeeid);
+
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp");
+	    
+	    dispatcher.forward(request, response);
+	}
+
+	private void editForm(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int employeeID = Integer.parseInt(request.getParameter("employeeid"));
+		Employee employee = employeeDAO.getEmployee(employeeID);
+		System.out.println("iam heree");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/addEmployee.jsp");
+		request.setAttribute("employee", employee);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void updateEmployee(HttpServletRequest request, HttpServletResponse response) 
+			throws SQLException, IOException, ServletException {
+		int employeeid = Integer.parseInt( request.getParameter("employeeid"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String dobString = request.getParameter("dob");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date utilDate;
+		try {
+		    utilDate = format.parse(dobString);
+		} catch (Exception e) {
+		    throw new RuntimeException("Invalid date format: " + dobString, e);
+		}
+		java.sql.Date dob = new java.sql.Date(utilDate.getTime());
+		String email = request.getParameter("email");
+		String departmentIdStr = request.getParameter("departmentId");
+		int departmentId = Integer.parseInt(departmentIdStr);
+	
+		employeeDAO.updateEmployee(firstName, lastName, dob, email,departmentId, employeeid);
+
+	    RequestDispatcher dispatcher = request.getRequestDispatcher("/JSP/employees/viewEmployees.jsp");
+	    
+	    dispatcher.forward(request, response);
 	}
 
 }
