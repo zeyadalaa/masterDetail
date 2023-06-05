@@ -46,7 +46,10 @@
 	        		   <tr class="rows">
 	       			   <td><%out.println(departments.get(i).getName()); %></td>
 	       			   <td><%out.println(departments.get(i).getEmployees_number()); %></td>
-	       			   <td><%out.println(departments.get(i).getSection().getName()); %></td>
+	       			    <td >
+					   <%out.println(departments.get(i).getSection().getName() != null ? departments.get(i).getSection().getName(): "-"); %>
+					   </td> 
+	       			   
 					   <td>
 		       			   <div class="action-buttons">
 			       			   <form action="${pageContext.request.contextPath}/Department" method="POST">
