@@ -1,3 +1,7 @@
+<%@page import="org.bibalex.DAO.SectionDAO"%>
+<%@ page import="org.bibalex.Models.Section" %>
+<%@ page import="org.bibalex.Models.Department" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -9,19 +13,46 @@
 <body>
     <div class="AddDepartment">
 	    <div class="container">
-	        <h1>Add Department</h1>
-	        <form action="Department" method="POST" class="add-employee-form">
+	    <%Department department = (Department) request.getAttribute("department"); %>
+	        <%
+					if(department != null) {
+					%>
+	        			<h1>Edit Department</h1>
+		          	<%}else{ %>
+	        			<h1>Add Department</h1>
+		          <%} %>
+	    
+	        <form action="${pageContext.request.contextPath}/Department" method="POST" class="add-employee-form">
 	
 	            <label for="departmentName">Department:</label>
-	            <input type="text" name="departmentName" id="departmentName" required><br>
+				<input type="hidden" name="departmentid" value="${department.id}">
+	            <input type="text" name="departmentName" id="departmentName" value="${department.name}" required><br>
 	
-	            <label for="Section Id">Section </label>
-				<select class="dropdown" name="departmentId" id="departmentId">
-			        <option value="section 1" ></option>
-			        <option value="section 2" ></option>
-			        <option value="section 3" ></option>
+	            <label for="Section Id">Section Name </label>
+	            <select class="dropdown" name="sectionId" id="sectionId" >
+				<%
+	        		SectionDAO sectionDAO = new SectionDAO();
+	        		List<Section> sections = sectionDAO.getSection();
+
+					for(int i = 0 ;i<sections.size();i++){
+						if(department.getSection().getId() == sections.get(i).getId()){
+	        		%>
+					        <option selected="selected"  value="<%=sections.get(i).getId() %>" > <%=sections.get(i).getName()%>  </option>
+				    <%}else{ %>
+				    
+					        <option value="<%=sections.get(i).getId() %>" > <%=sections.get(i).getName()%>  </option>
+			        <%}} %>
+
 				</select>
-		            <input class="add" type="submit" value="Add Employee">
+				<%
+					if(department != null) {
+				%>
+				    <input type="hidden" name="action" value="update">
+		            <input class="add" type="submit" value="Update department">
+				<%}else{ %>
+				    <input type="hidden" name="action" value="insert">
+		            <input class="add" type="submit" value="Add department">
+	            <%} %>
 				
 	        </form>
 	    </div>
