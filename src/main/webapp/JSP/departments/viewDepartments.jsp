@@ -1,7 +1,7 @@
 <%@page import="org.bibalex.Servlet.DepartmentServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%> 
 <%@ page import="org.bibalex.Models.Department" %>
-<%@ page import="org.bibalex.DAO.EmployeeDAO" %>
+<%@ page import="org.bibalex.DAO.DepartmentDAO" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -36,30 +36,41 @@
 	            //for (department department : departments) {
 	        %>
 	        
-	        <c:forEach  items="${departments}" var="department">
 		        <tr class="rows">
-		           	<td><c:out /></td>
-					<td><c:out  /></td>
-					<td><c:out  /></td>
-		            <%-- <td><a href="edit?id=<c:out  />">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out />">Delete</a></td> --%>
-								
+	        		<%
+	        		DepartmentDAO departmentDAO = new DepartmentDAO();
+	        		List<Department> departments = departmentDAO.getDepartment();
+	        	
+					for(int i = 0 ;i<departments.size();i++){
+	        		%>
+	        		   <tr class="rows">
+	       			   <td><%out.println(departments.get(i).getName()); %></td>
+	       			   <td><%out.println(departments.get(i).getEmployees_number()); %></td>
+	       			   <td><%out.println(departments.get(i).getSection().getName()); %></td>
+					   <td>
+		       			   <div class="action-buttons">
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="update">
+					                <button type="submit" class="updateButton">Update</button>
+							   </form>
+							   
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="delete">
+				                	<button type="submit" class="deleteButton">Delete</button>
+							   </form>
+						   </div>
+			            </td>
+					<%}%>
+		        </tr>
+		        <!-- <tr class="rows">
+		            <td>zeyad</td>
+		            <td>zeyad</td>
+		            <td>zeyad</td>
 		            <td>
 		                <button>Delete</button>
 		                <button>Update</button>
 		            </td>
-		        </tr>
-			</c:forEach>
-		        <tr class="rows">
-		            <td>zeyad</td>
-		            <td>zeyad</td>
-		            <td>zeyad</td>
-		            <td>
-		                <button>Delete</button>
-		                <button>Update</button>
-		            </td>
-		        </tr>
+		        </tr> -->
 	    </table>
 	    <form action="${pageContext.request.contextPath}/Department" method="POST">
 		  <input type="hidden" name="action" value="add">

@@ -30,26 +30,37 @@
 	            <th>Actions</th>
 	        </tr>
 	        <%-- JSP code to retrieve and display data from the database --%>
-	        <%
-	            // Assuming you have a list of employees retrieved from the database
-	            //List<Employee> employees = getEmployeesFromDatabase();
-	
-	            //for (Employee employee : employees) {
-	        %>
 	        
+
       			<tr class="rows">
-	            <%-- <td><%= employee.getId() %></td>
-	            <td><%= employee.getFirst_name() %></td>
-	            <td><%= employee.getLast_name() %></td>
-	            <td><%= employee.getDOB() %></td>
-	            <td><%= employee.getEmail() %></td>
-	            <td><%= employee.getDepartment_id() %></td> --%>
-	            <td>zeyad</td>
+<%
+	        		SectionDAO sectionDAO = new SectionDAO();
+	        		List<Section> sections = sectionDAO.getSection();
+	        	
+					for(int i = 0 ;i<sections.size();i++){
+	        		%>
+	        		   <tr class="rows">
+	       			   <td><%out.println(sections.get(i).getName()); %></td>
+					   <td>
+		       			   <div class="action-buttons">
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="update">
+					                <button type="submit" class="updateButton">Update</button>
+							   </form>
+							   
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="delete">
+				                	<button type="submit" class="deleteButton">Delete</button>
+							   </form>
+						   </div>
+			            </td>
+					<%}%>
+	        </tr>
+	            <!-- <td>zeyad</td>
 	            <td>
 	                <button>Delete</button>
 	                <button>Update</button>
-	            </td>
-	        </tr>
+	            </td> -->
 	       <%--  <% } %> --%>
 	    </table>
 	    <form action="${pageContext.request.contextPath}/Employee" method="POST">

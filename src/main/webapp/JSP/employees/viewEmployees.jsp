@@ -1,4 +1,4 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+
 <%@page import="org.bibalex.Servlet.EmployeeServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%> 
 <%@ page import="org.bibalex.Models.Employee" %>
@@ -7,11 +7,6 @@
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="jquery-3.6.0.min.js"></script> -->
 
-<% 
-EmployeeDAO employeeDAO = new EmployeeDAO();
-List<Employee> employees = employeeDAO.getEmployees();
-System.out.println("this is new "+employees.get(0).getLastName());
-%>
 
 <!DOCTYPE html>
 <html>
@@ -41,33 +36,41 @@ System.out.println("this is new "+employees.get(0).getLastName());
 	            <th>Section Name</th>
 	            <th>Actions</th>
 	        </tr>
-	        <%-- JSP code to retrieve and display data from the database --%>
-	        <%
-	            // Assuming you have a list of employees retrieved from the database
-	            //List<Employee> employees = getEmployeesFromDatabase();
-	
-	            //for (Employee employee : employees) {
-	        %>
 	        
-        		   <tr class="rows">
-	        			<%
-						for(int i = 0 ;i<employees.size();i++){
-		        			%>
+      		<tr class="rows">
+        		<%
+	        		EmployeeDAO employeeDAO = new EmployeeDAO();
+	        		List<Employee> employees = employeeDAO.getEmployees();
+	        	
+					for(int i = 0 ;i<employees.size();i++){
+	        	%>
 	        		   <tr class="rows">
-        			   <td><%out.println(employees.get(i).getFirstName()); %></td>
-        			   <td><%out.println(employees.get(i).getLastName()); %></td>
-        			   <td><%out.println(employees.get(i).getEmail()); %></td>
-        			   <td><%out.println(employees.get(i).getDOB()); %></td>
-        			   <td><%out.println(employees.get(i).getDepartment().getName()); %></td>
-        			   <td><%out.println(employees.get(i).getDepartment().getSection().getName()); %></td>
-					   <td><a href="edit?id=<c:out value='${employee.id}' />">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out value='${employeex.id}' />">Delete</a></td>
-						<%
-						}
-		        			%>
-       		    </table>
-	        			<tr class="rows">
+	       			   <td><%out.println(employees.get(i).getFirstName()); %></td>
+	       			   <td><%out.println(employees.get(i).getLastName()); %></td>
+	       			   <td><%out.println(employees.get(i).getEmail()); %></td>
+	       			   <td><%out.println(employees.get(i).getDOB()); %></td>
+	       			   <td><%out.println(employees.get(i).getDepartment().getName()); %></td>
+	       			   <td><%out.println(employees.get(i).getDepartment().getSection().getName()); %></td> 
+	       			   <td>
+		       			   <div class="action-buttons">
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="update">
+					                <button type="submit" class="updateButton">Update</button>
+							   </form>
+							   
+			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+								  <input type="hidden" name="action" value="delete">
+				                	<button type="submit" class="deleteButton">Delete</button>
+							   </form>
+						   </div>
+			            </td>
+				   <%}%> 
+	        </tr>
+		</table>
+		
+		<%-- <td><a href="edit?id=<%= employees.get(i).getId() %>">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="delete?id=<%= employees.get(i).getId() %>">Delete</a></td>
+    		 --%>		
+	        			<!-- <tr class="rows"> -->
 	            <%-- <td><%= employee.getId() %></td>
 	            <td><%= employee.getFirst_name() %></td>
 	            <td><%= employee.getLast_name() %></td>
@@ -78,7 +81,6 @@ System.out.println("this is new "+employees.get(0).getLastName());
 	                <button>Delete</button>
 	                <button>Update</button>
 	            </td> -->
-	        </tr>
 	    <form action="${pageContext.request.contextPath}/Employee" method="POST">
 		  <input type="hidden" name="action" value="add">
 		  <button type="submit" class="addButton">Add New Employee</button>

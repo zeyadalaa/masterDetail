@@ -4,8 +4,8 @@ body {
 }
 
 .container {
-	font-size: 20px;
-    font-family:  'Arial Narrow', Arial, sans-serif ;
+    font-size: 20px;
+    font-family: 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     margin: auto;
     width: 70%;
@@ -42,11 +42,13 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
+
 table .rows {
     font-weight: lighter;
 }
@@ -66,9 +68,17 @@ button {
 button:hover {
     background-color: #45a049;
 }
-.addButton{
-	margin-top: 1%;
-	margin-right: 7%;
+
+.addButton {
+    margin-top: 1%;
+    margin-right: 7%;
     float: right;
 }
 
+.action-buttons {
+    display: flex;
+}
+
+.action-buttons button {
+    margin-right: 5px;
+}

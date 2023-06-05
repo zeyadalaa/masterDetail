@@ -32,7 +32,7 @@ public class SectionDAO {
         connection1.close();
     }
 
-    List<Section> getSection() throws SQLException {
+    public List<Section> getSection() throws SQLException {
     	List<Section> sections = new ArrayList<>();
 
         ConnectDB connection = new ConnectDB();
