@@ -43,13 +43,15 @@
 	       			   <td><%out.println(sections.get(i).getName()); %></td>
 					   <td>
 		       			   <div class="action-buttons">
-			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
-								  <input type="hidden" name="action" value="update">
+			       			   <form action="${pageContext.request.contextPath}/Section" method="POST">
+								  <input type="hidden" name="action" value="edit">
+								  <input type="hidden" name="sectionid" value="<%=sections.get(i).getId() %>">
 					                <button type="submit" class="updateButton">Update</button>
 							   </form>
 							   
-			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
+			       			   <form action="${pageContext.request.contextPath}/Section" method="POST">
 								  <input type="hidden" name="action" value="delete">
+								  <input type="hidden" name="sectionid" value="<%=sections.get(i).getId() %>">
 				                	<button type="submit" class="deleteButton">Delete</button>
 							   </form>
 						   </div>
@@ -63,9 +65,9 @@
 	            </td> -->
 	       <%--  <% } %> --%>
 	    </table>
-	    <form action="${pageContext.request.contextPath}/Employee" method="POST">
+	    <form action="${pageContext.request.contextPath}/Section" method="POST">
 		  <input type="hidden" name="action" value="add">
-		  <button type="submit" class="addButton">Add New Employee</button>
+		  <button type="submit" class="addButton">Add Section</button>
 		</form>
 	    <!-- <button  class="addButton">Add</button> -->
     </div>

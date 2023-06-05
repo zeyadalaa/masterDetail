@@ -8,7 +8,7 @@
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/addEmployee.css">
     <meta charset="UTF-8">
-    <title>Add Employee</title>
+    <title>Add Department</title>
 </head>
 <body>
     <div class="AddDepartment">
@@ -35,7 +35,7 @@
 	        		List<Section> sections = sectionDAO.getSection();
 
 					for(int i = 0 ;i<sections.size();i++){
-						if(department.getSection().getId() == sections.get(i).getId()){
+						if(department !=null && department.getSection() != null && department.getSection().getId() == sections.get(i).getId()){
 	        		%>
 					        <option selected="selected"  value="<%=sections.get(i).getId() %>" > <%=sections.get(i).getName()%>  </option>
 				    <%}else{ %>
