@@ -48,10 +48,11 @@
 	        		List<Department> departments = departmentDAO.getDepartment();
 
 					for(int i = 0 ;i<departments.size();i++){
-						if(employee.getDepartment().getId() == departments.get(i).getId()){
+						if(employee !=null && employee.getDepartment() != null &&
+								employee.getDepartment().getId() == departments.get(i).getId()){
 	        		%>
 					        <option selected="selected"  value="<%=departments.get(i).getId() %>" > <%=departments.get(i).getSection().getName()%>, <%=departments.get(i).getName() %>  </option>
-				    <%}else{ %>
+				    <%}else if (departments.get(i) !=null){ %>
 				    
 				        <option value="<%=departments.get(i).getId() %>"> <%=departments.get(i).getSection().getName()%>, <%=departments.get(i).getName() %>  </option>
 					<%}} %>

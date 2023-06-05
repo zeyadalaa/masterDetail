@@ -73,4 +73,59 @@ public class SectionDAO {
         connection1.close();
         return sectionId;
     }
+
+	public void deleteSection(int sectionid) throws SQLException {
+
+        ConnectDB connection = new ConnectDB();
+        String STP= "CALL deleteSection(?)";
+        Connection connection1 =connection.ConnectToDatabase();
+        CallableStatement statement = null;
+        
+    	statement = connection1.prepareCall(STP);    
+        statement.setInt(1, sectionid);
+        statement.executeUpdate();
+        statement.close();
+        connection1.close();
+		
+		
+	}
+
+	public Section getSectionById(int sectionid) throws SQLException {
+    	Section section = null;
+        ConnectDB connection = new ConnectDB();
+        String STP= "CALL getSectionByID(?)";
+        Connection connection1 =connection.ConnectToDatabase();
+        CallableStatement statement = null;
+
+        statement =  connection1.prepareCall(STP);
+        statement.setInt(1, sectionid);
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            int sectionID = resultSet.getInt("section_id");
+            String sectionName = resultSet.getString("section_name");
+
+            section = new Section(sectionID,sectionName);
+        }
+
+        statement.close();
+        connection1.close();
+        return section;
+	}
+
+	public void updateSection(int sectionId, String sectionName) throws SQLException {
+
+        ConnectDB connection = new ConnectDB();
+        String STP= "CALL updateSection(?,?)";
+        Connection connection1 =connection.ConnectToDatabase();
+        CallableStatement statement = null;
+        
+    	statement = connection1.prepareCall(STP);    
+        statement.setInt(1, sectionId);
+        statement.setString(2, sectionName);
+        statement.executeUpdate();
+        statement.close();
+        connection1.close();
+		
+	}
 }
