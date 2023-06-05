@@ -47,19 +47,21 @@
 	        		   <tr class="rows">
 	       			   <td><%out.println(employees.get(i).getFirstName()); %></td>
 	       			   <td><%out.println(employees.get(i).getLastName()); %></td>
-	       			   <td><%out.println(employees.get(i).getEmail()); %></td>
 	       			   <td><%out.println(employees.get(i).getDOB()); %></td>
+	       			   <td><%out.println(employees.get(i).getEmail()); %></td>
 	       			   <td><%out.println(employees.get(i).getDepartment().getName()); %></td>
 	       			   <td><%out.println(employees.get(i).getDepartment().getSection().getName()); %></td> 
 	       			   <td>
 		       			   <div class="action-buttons">
 			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
-								  <input type="hidden" name="action" value="update">
+								  <input type="hidden" name="action" value="edit" >
+								  <input type="hidden" name="employeeid" value="<%=employees.get(i).getId() %>">
 					                <button type="submit" class="updateButton">Update</button>
 							   </form>
 							   
 			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">
 								  <input type="hidden" name="action" value="delete">
+								  <input type="hidden" name="employeeid" value="<%=employees.get(i).getId() %>">
 				                	<button type="submit" class="deleteButton">Delete</button>
 							   </form>
 						   </div>
