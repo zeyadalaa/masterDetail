@@ -49,8 +49,12 @@
 	       			   <td><%out.println(employees.get(i).getLastName()); %></td>
 	       			   <td><%out.println(employees.get(i).getDOB()); %></td>
 	       			   <td><%out.println(employees.get(i).getEmail()); %></td>
-	       			   <td><%out.println(employees.get(i).getDepartment().getName()); %></td>
-	       			   <td><%out.println(employees.get(i).getDepartment().getSection().getName()); %></td> 
+	       			   <td>
+						   <% out.println(employees.get(i).getDepartment().getName() != null ? employees.get(i).getDepartment().getName() : "-");%>
+					   </td>
+					   <td >
+					   <%out.println(employees.get(i).getDepartment().getSection().getName() != null ? employees.get(i).getDepartment().getSection().getName() : "-"); %>
+					   </td> 
 	       			   <td>
 		       			   <div class="action-buttons">
 			       			   <form action="${pageContext.request.contextPath}/Employee" method="POST">

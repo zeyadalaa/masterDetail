@@ -39,13 +39,14 @@ nav ul li a {
 table {
     width: 100%;
     border-collapse: collapse;
+    text-align: center;
     margin-top: 20px;
 }
 
 th,
 td {
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -77,6 +78,7 @@ button:hover {
 
 .action-buttons {
     display: flex;
+    justify-content: center;
 }
 
 .action-buttons button {
