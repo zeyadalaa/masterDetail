@@ -2,6 +2,7 @@
 <%@ page import="org.bibalex.Models.Department" %>
 <%@ page import="org.bibalex.Models.Employee" %>
 <%@ page import="org.bibalex.DAO.DepartmentDAO" %>
+
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
@@ -9,12 +10,36 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/addEmployee.css">
     <meta charset="UTF-8">
     <title>Add Employee</title>
+    <script>
+        function showError(message) {
+            alert(message); // Replace with your preferred pop-up mechanism
+        }
+    </script>
 </head>
 <body>
+<% if (request.getAttribute("errorMessage") != null) { %>
+        <script>
+            showError("<%= request.getAttribute("errorMessage") %>");
+        </script>
+    	<% } %>
+    <div class="container-nav">
+        <nav>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/JSP/employees/viewEmployees.jsp">Employee</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/departments/viewDepartments.jsp">Department</a></li>
+                <li><a href="${pageContext.request.contextPath}/JSP/sections/viewSections.jsp">Section</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="AddEmployee">
 	    <div class="container">
-	    <%Employee employee = (Employee) request.getAttribute("employee"); %>
 	    
+	    
+	    <%Employee employee = (Employee) request.getAttribute("employee"); 
+	    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+	    java.util.Date currentDate = new java.util.Date();
+	    String formattedDate = dateFormat.format(currentDate);
+	    %>
 	    			<%
 					if(employee != null) {
 					%>
@@ -36,7 +61,8 @@
        onvalid="this.setCustomValidity('')"><br>-->
        
 	            <label for="dob">Date of Birth:</label>
-	            <input type="date" name="dob" id="dob" value = "${employee.DOB}" required><br>
+				<input type="date" name="dob" id="dob" value="<%= formattedDate %>" max="<%= formattedDate %>" required><br>
+
 	
 	            <label for="email">Email:</label>
 	            <input type="email" name="email" id="email" value = "${employee.email}"  required><br>
