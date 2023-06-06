@@ -6,6 +6,7 @@
     <welcome-file-list>
         <welcome-file>/JSP/employees/viewEmployees.jsp</welcome-file>
     </welcome-file-list>
+    
 
     <!-- Define servlet mappings -->
     <servlet>

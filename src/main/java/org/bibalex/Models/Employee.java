@@ -79,4 +79,9 @@ public class Employee {
         this.department = department;
     }
     
+    @Override
+    public String toString() {
+        return id + ", " + firstName + ", " + lastName + ", " + DOB + ", " + email + ", " + department.getSection().getName() + ", " + department.getName();
+    }
+    
 }

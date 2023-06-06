@@ -1,6 +1,13 @@
 package org.bibalex.Servlet;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -10,15 +17,23 @@ import java.text.SimpleDateFormat;
 import org.bibalex.Models.Department;
 import org.bibalex.Models.Employee;
 import org.bibalex.Models.Section;
+
+import com.aspose.cells.Workbook;
+import com.aspose.cells.Worksheet;
+
 import org.bibalex.DAO.EmployeeDAO;
 import org.bibalex.DAO.ConnectDB;
 import org.bibalex.DAO.DepartmentDAO;
 import org.bibalex.DAO.SectionDAO;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 
 //import javax.servlet.RequestDispatcher;
@@ -31,6 +46,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+//import org.apache.poi.ss.usermodel.*;
+//import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTSheet;
+//import org.apache.poi.xssf.usermodel.*;
+//import org.apache.xmlbeans.XmlObject;
+
+
 
 /**
  * Servlet implementation class EmployeeServlet
@@ -80,6 +101,9 @@ public class EmployeeServlet extends HttpServlet {
 				break;
 			case "update":
 				updateEmployee(request, response);
+				break;
+			case "export":
+				exportExcel(request, response);
 				break;
 			default:
 				System.out.print( "/n view");
@@ -199,4 +223,51 @@ public class EmployeeServlet extends HttpServlet {
 	    dispatcher.forward(request, response);
 	}
 
+    
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	
+    	List<Employee> list = employeeDAO.getEmployees();
+
+        String filePath = "D:\\Users\\zeyad.alaa\\Desktop\\export.csv";
+        String fileBaseName = "export";
+        String fileExt = ".csv";
+        String finalFilePath = filePath;
+        int fileNumber = 0;
+
+        while (new File(finalFilePath).exists()) {
+            fileNumber++;
+            finalFilePath = filePath.replace(fileExt, "_" + fileNumber + fileExt);
+        }
+
+        FileWriter writer = new FileWriter(finalFilePath);
+
+        writer.write("ID, first_name, last_name, date_of_birth, email, section_name, department_name\n");
+        for(Employee employee : list) {
+            writer.write(employee.getId() + "," + employee.getFirstName() + "," + employee.getLastName() + "," + employee.getDOB() + "," + employee.getEmail() + "," + employee.getDepartment().getSection().getName() + "," + employee.getDepartment().getName() + "\n");
+        }
+
+        writer.close();
+
+        response.setContentType("application/csv");
+
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + finalFilePath + "\"");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        OutputStream outputStream = response.getOutputStream();
+        FileInputStream fileInputStream = new FileInputStream(finalFilePath);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        fileInputStream.close();
+        outputStream.flush();
+        outputStream.close();
+
+        response.getWriter().write("CSV file exported successfully!");
+    }
+    
 }

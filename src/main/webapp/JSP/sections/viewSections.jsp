@@ -76,6 +76,7 @@
 		  <input type="hidden" name="action" value="add">
 		  <button type="submit" class="addButton">Add Section</button>
 		</form>
+		
 	    <!-- <button  class="addButton">Add</button> -->
     </div>
 

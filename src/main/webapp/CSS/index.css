@@ -39,7 +39,7 @@ nav ul li a {
 table {
     width: 100%;
     border-collapse: collapse;
-    text-align: center;
+    text-align: right;
     margin-top: 20px;
 }
 
@@ -70,7 +70,7 @@ button:hover {
     background-color: #45a049;
 }
 
-.addButton {
+.addButton ,.exportButton {
     margin-top: 1%;
     margin-right: 7%;
     float: right;

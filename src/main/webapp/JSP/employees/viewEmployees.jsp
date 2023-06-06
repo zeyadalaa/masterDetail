@@ -98,6 +98,10 @@
 		  <input type="hidden" name="action" value="add">
 		  <button type="submit" class="addButton">Add New Employee</button>
 		</form>
+		<form action="${pageContext.request.contextPath}/Employee" method="POST">
+		  <input type="hidden" name="action" value="export">
+		  <button type="submit" class="exportButton">Export excel sheet</button>
+		</form>
 	    <!-- <button  class="addButton">Add</button> -->
     </div>
 
